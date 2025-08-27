@@ -9,6 +9,7 @@ import androidx.camera.view.PreviewView
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.ui.Alignment
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -41,6 +42,8 @@ import java.util.concurrent.Executors
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.exomation.presentation.viewmodels.ExerciseViewModel
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import com.example.exomation.domain.model.ExerciseType as DomainExerciseType
 import com.google.accompanist.permissions.isGranted
 
@@ -181,11 +184,12 @@ fun ExerciseCameraScreen(viewModel: ExerciseViewModel = hiltViewModel()) {
         if (showExercisePicker) {
             Card(modifier = Modifier
                 .align(Alignment.TopEnd)
-                .padding(16.dp)) {
+                .padding(16.dp)
+                .fillMaxWidth()) {
                 androidx.compose.foundation.layout.Column(modifier = Modifier.padding(12.dp)) {
                     Text("Choose exercise")
-                    androidx.compose.foundation.layout.Row {
-                        exerciseOptions.forEach { opt ->
+                    LazyRow(modifier = Modifier.fillMaxWidth()) {
+                        items(exerciseOptions) { opt ->
                             FilledTonalButton(onClick = {
                                 selectedExercise = opt
                                 viewModel.setSelectedExercise(opt)
